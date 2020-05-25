@@ -217,6 +217,8 @@ namespace CTCI.CH2
             return null;
         }
 
+        
+
         public void PrintLinkedList(Node head){
             while(head!=null) {
                 if(head.next==null){
