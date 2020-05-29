@@ -100,7 +100,7 @@ namespace CTCI.BT
             return Math.Max(Size(root.left)+1, Size(root.right)+1);
         }
         
-        public int MinValue(TreeNode root){
+        public int MinValueBST(TreeNode root){
             while(root.left != null){
                 root = root.left;
             }
@@ -268,8 +268,99 @@ namespace CTCI.BT
             }
         }
 
-        public bool isBST(TreeNode node){
+
+        public bool isBST(TreeNode root, TreeNode last){
+            // Inorder traversal
+            if(root == null)
+                return true;
+            if(!isBST(root.left,last)) return false;
+            if(last!=null && root.data <= last.data) return false;
+            last=root;
+            return isBST(root.right, last);
+        }
+
+        public bool isBST2(TreeNode node){
+            if(node == null) return true;
+
+            if(node.left != null && MaxValue(node.left) > node.data){
+                return false;
+            }
+
+            if(node.right!= null && MinValue(node.right) <= node.data){
+                return false;
+            }
+
+            if(!isBST2(node.left) || !isBST2(node.right)){
+                return false;
+            }
+            return true;
+        }
+
+        public bool isBST3(TreeNode root){
+            return isBSTRecur(root, int.MinValue, int.MaxValue);
+        }
+
+        public bool isBSTRecur(TreeNode root, int min, int max){
+            if(root == null)
+                return true;
+            if(root.data < min || root.data > max){
+                return false;
+            }
+
+            return isBSTRecur(root.left, min, root.data) && isBSTRecur(root.right, root.data, max);
+        }
+
+        public bool isBST4(TreeNode root, int max){
+            Stack<int> st = new Stack<int>();
+            while(root!= null || st.Count!=0){
+                while(root!=null){
+                    st.Push(root.data);
+                    root = root.left;
+                }
+
+                int temp = st.Pop();
+                if(temp > max) return false;
+                max = temp;
+                root = root.right;
+            }
+        }
+
+        public int MaxValue(TreeNode node){
+            if(node==null)
+                return int.MinValue;
             
+            int res = node.data;
+            int lres = MaxValue(node.left);
+            int rres = MaxValue(node.right);
+
+            if (lres > res) 
+            { 
+                res = lres; 
+            } 
+            if (rres > res) 
+            { 
+                res = rres; 
+            } 
+            return res;             
+        }
+
+        public int MinValue(TreeNode node){
+            if(node==null)
+                return int.MaxValue;
+            
+            int res = node.data;
+            int lres = MinValue(node.left);
+            int rres = MinValue(node.right);
+
+            if (lres < res) 
+            { 
+                res = lres; 
+            } 
+            if (rres < res) 
+            { 
+                res = rres; 
+            } 
+            return res;                         
         }
 
 
