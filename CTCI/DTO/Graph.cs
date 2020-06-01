@@ -5,8 +5,8 @@ namespace CTCI.DTO
 {
     public class Graph
     {
-        private int V;
-        private LinkedList<int>[] adj;
+        public int V;
+        public LinkedList<int>[] adj;
         public Graph(int v){
             V=v;
             adj = new LinkedList<int>[V];

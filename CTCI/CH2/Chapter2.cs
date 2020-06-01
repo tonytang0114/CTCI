@@ -200,7 +200,7 @@ namespace CTCI.CH2
         // Note that the intersection is defined based on reference, not value. That is, if the 
         // kth node of the first linked list is the exact same node (by reference) as the jth node of the second linked list
         // then they are intersecting
-        public Node intersect(Node l1, Node l2){
+        public Node Intersect(Node l1, Node l2){
             HashSet<Node> hs = new HashSet<Node>();
             while(l1.next != null){
                 if(!hs.Contains(l1)){
@@ -212,6 +212,66 @@ namespace CTCI.CH2
                 if(hs.Contains(l2)){
                     return l2;
                 }
+            }
+
+            return null;
+        }
+
+        public Node Intersect2(Node l1, Node l2){
+            if(l1==null && l2==null)
+                return null;
+            
+             var diff = GetDiff(l1, l2);
+
+            if(diff > 0){
+                l1 = l1.next;
+                diff--;
+            }else{
+                while(diff < 0){
+                    l2 = l2.next;
+                    diff++;
+                }
+            }
+
+            while(l1 !=null){
+                if(l1 == l2){
+                    return l1;
+                }    
+                l1 = l1.next;
+                l2 = l2.next;
+            }
+            return null;
+        }
+
+        public int GetDiff(Node l1, Node l2){
+            var aLength = 0;
+            var bLength = 0;
+
+            while(l1 != null ){
+                aLength++;
+                l1 = l1.next;
+            }
+            while(l2 != null ){
+                bLength++;
+                l2 = l2.next;
+            }
+
+            return aLength - bLength;
+        }
+
+
+        // Qn8: Given a circular linked list, implement an algorithm that returns the node at the beginning of the loop
+        public Node LoopDetection(Node head){
+            // Use runner runner technique to find the loop 
+            Node slow = head;
+            Node fast = head.next;
+
+            while(slow!=null && fast!=null && fast.next!=null){
+                if(slow == fast){
+                    return slow;
+                }
+                slow = slow.next;
+                fast = fast.next.next;
             }
 
             return null;
@@ -231,5 +291,7 @@ namespace CTCI.CH2
                 head = head.next;
             }
         }
+
+
     }
 }
